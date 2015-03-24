@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#!/usr/bin/env perl
 ###############################################################################
 #
 #	USAGE: perl prep_bnx.pl [dataset directory] [bnx directory]

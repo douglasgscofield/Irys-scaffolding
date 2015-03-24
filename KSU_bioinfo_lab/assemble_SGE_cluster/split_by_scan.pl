@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#!/usr/bin/env perl
 ##################################################################################
 #   
 #	USAGE: perl split_by_scan.pl [bnx directory]

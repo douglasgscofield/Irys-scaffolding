@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#!/usr/bin/env perl
 ##################################################################################
 #   
 #	USAGE: perl RefineAssembleIrys.pl [options]

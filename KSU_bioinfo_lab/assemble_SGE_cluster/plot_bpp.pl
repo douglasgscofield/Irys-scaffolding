@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#!/usr/bin/env perl
 #################################################################################
 #
 # USAGE: perl plot_bpp.pl <bbp_list.txt>

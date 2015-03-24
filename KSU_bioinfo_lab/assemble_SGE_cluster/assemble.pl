@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#!/usr/bin/env perl
 ##################################################################################
 #   
 #	USAGE: perl assemble.pl [bnx_dir] [reference] [p_value Threshold] [script directory] [project prefix]
@@ -8,9 +8,14 @@
 ##################################################################################
 use strict;
 use warnings;
+
+my $bionano_scripts = '/sw/apps/bioinfo/bionano/v1/milou/scripts';  ##UPPMAX
+my $bionano_tools = '/sw/apps/bioinfo/bionano/v1/milou/tools';  ##UPPMAX
+
 # use List::Util qw(max);
 # use List::Util qw(sum);
-use lib '/homes/bioinfo/bioinfo_software/perl_modules/lib/perl5/';
+use lib '/sw/apps/bioinfo/bionano/v1/milou/perl-packages/lib/perl5';  ##TODO ##UPPMAX
+# use lib '/homes/bioinfo/bioinfo_software/perl_modules/lib/perl5/';  ##TODO ##UPPMAX
 #use XML::Simple;
 #use Data::Dumper;
 ##################################################################################
@@ -25,7 +30,7 @@ print "bnx_dir = $ARGV[0]\n";
 print "ref = $ARGV[1]\n";
 print "T = $ARGV[2]\n";
 print "dirname = $ARGV[3]\n";
-my $err="${bnx_dir}/all_flowcells/all_flowcells_adj_merged_bestref.err";
+my $err="${bnx_dir}/all_flowcells/all_flowcells_adj_merged_bestref.err";  ##TODO
 ##################################################################################
 ##############              get parameters for XML              ##################
 ##################################################################################
@@ -61,9 +66,9 @@ open (OUT_ASSEMBLE, '>',"${bnx_dir}/assembly_commands.sh"); # for assembly comma
 ##################################################################
 
 print OUT_ASSEMBLE "#!/bin/bash\n";
-print OUT_ASSEMBLE ". /usr/bin/virtualenvwrapper.sh\n";
-print OUT_ASSEMBLE "workon bionano\n";
-print OUT_ASSEMBLE "export DRMAA_LIBRARY_PATH=/opt/sge/lib/lx3-amd64/libdrmaa.so.1.0\n";
+# print OUT_ASSEMBLE ". /usr/bin/virtualenvwrapper.sh\n";  ##TODO ##UPPMAX
+# print OUT_ASSEMBLE "workon bionano\n";  ##TODO ##UPPMAX
+# print OUT_ASSEMBLE "export DRMAA_LIBRARY_PATH=/opt/sge/lib/lx3-amd64/libdrmaa.so.1.0\n";  ##TODO ##UPPMAX
 print OUT_ASSEMBLE "##################################################################\n";
 print OUT_ASSEMBLE "#####             FIRST ASSEMBLY COMMANDS                    #####\n";
 print OUT_ASSEMBLE "##################################################################\n";
@@ -136,7 +141,9 @@ for my $stringency (keys %p_value)
     print OUT_ASSEMBLE "##################################################################\n";
     print OUT_ASSEMBLE "#####           FIRST ASSEMBLY: ${stringency}                \n";
     print OUT_ASSEMBLE "##################################################################\n";
-    print OUT_ASSEMBLE "python2 /homes/bioinfo/bioinfo_software/bionano/scripts/pipelineCL.py -T 16 -j 8 -N 2 -i 5 -a $xml_final -w -t /homes/bioinfo/bioinfo_software/bionano/tools/ -l $out_dir -b ${bnx_dir}/all_flowcells/all_flowcells_adj_merged.bnx -V 1 -e ${project}_${stringency} -p 0 -r $ref -U -C ${dirname}/clusterArguments.xml\n";
+    print OUT_ASSEMBLE "module load python/2.7.6\n"; ##UPPMAX
+    # print OUT_ASSEMBLE "python2 $bionano_scripts/pipelineCL.py -T 16 -j 8 -N 2 -i 5 -a $xml_final -w -t $bionano_tools -l $out_dir -b ${bnx_dir}/all_flowcells/all_flowcells_adj_merged.bnx -V 1 -e ${project}_${stringency} -p 0 -r $ref -U -C ${dirname}/clusterArguments.xml\n";
+    print OUT_ASSEMBLE "python2 $bionano_scripts/pipelineCL.py -T 16 -j 16 -N 2 -i 5 -a $xml_final -w -t $bionano_tools -l $out_dir -b ${bnx_dir}/all_flowcells/all_flowcells_adj_merged.bnx -V 1 -e ${project}_${stringency} -p 0 -r $ref -U -C ${dirname}/clusterArguments.xml\n";
     ##################################################################
     ##############  Write second round of assembly commands ##########
     ##################################################################
