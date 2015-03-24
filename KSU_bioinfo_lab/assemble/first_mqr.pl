@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#!/usr/bin/env perl
 ##################################################################################
 #   
 #	USAGE: perl first_mqr.pl [bnx directory] [reference] [p-value Threshold]
